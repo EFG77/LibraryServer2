@@ -1,44 +1,34 @@
 
 //import express, body-parser
 const express = require('express');
+
 const bodyParser =require("body-parser");
 
-const {listBooksController,createBookController,updateBookController,deleteBookController}= require('./controllers');
+const mongoose=require('mongoose');
 
+const bookRoutes=require('./Routes/books_routes')
 
+//import routes
+//const routes = require('./Routes/routes');
 
 //create express server instance
 
 const server=express();
 
-
 //Middlewares
 
 server.use(bodyParser.json());
 
+//endpoints or paths
+server.use('/book', bookRoutes)
+
+// connect to database and start server
+mongoose.connect('mongodb+srv://ebenezer:S3bNyepUtTssggp1@cluster0.zgkapua.mongodb.net/?retryWrites=true&w=majority').then(result=>{
+  server.listen(5000, ()=>console.log('server is ready')); 
+}).catch(err=>console.log(err));
 
 
-//routes
-// view books-get method
-server.get('/book',listBooksController);
-
-//create a book-post method
-
-server.post('/book',createBookController );
-
-//update book-put method
-
-server.put('/book', updateBookController);
-
-
-//delete book-delete method
-
-server.delete('/book', deleteBookController)
-
-
-
-//start server
-server.listen(5000, ()=>console.log('server is ready'));  
+ 
 
 
 

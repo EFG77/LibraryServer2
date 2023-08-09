@@ -1,5 +1,5 @@
 
-let booksDb = require('./db');
+const mongoose= require("mongoose");
 
 //BookModel
 class BookModel{
@@ -19,20 +19,26 @@ class BookModel{
       return booksDb;
     }
 
-    static update(updateInfo={}){
+  
+    
+static update(updateInfo={}){
+      let current_book=null;
     booksDb=booksDb.map(book=>{
       if(book.title === updateInfo.title){
-         return{...book, ...updateInfo};
-         
+         let new_book_info={...book, ...updateInfo};
+         current_book=new_book_info;
+         return new_book_info;  
       }
 
       return book;
-   
-      
-      
+    
     })
+    return current_book
 
     }
+
+
+
 
     static delete({title}){
       let deletedBook=null;
